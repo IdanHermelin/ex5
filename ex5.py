@@ -58,7 +58,37 @@ def courses_for_lecturers(json_directory_path, output_json_path):
     :param json_directory_path: Path of the semsters_data files.
     :param output_json_path: Path of the output json file.
     """
-    pass
+    #creating lecturers list
+    lecturers_list=[]
+    for file_name in os.listdir(json_directory_path):
+        file_to_read = os.path.join(json_directory_path, file_name)
+        if (len(file_name)<6):
+            continue
+        if (file_name[-5:]!=".json"):
+            continue
+        with open(file_to_read,"r") as f:
+            loaded_dict = json.load(f)
+            key_list = loaded_dict.keys()
+            for course_id in key_list:
+                lecturers_list = list(set(loaded_dict[course_id]["lecturers"]) | set(lecturers_list))
+    lecturers_dict=dict(zip(lecturers_list,[[] for x in range(0,len(lecturers_list))]))
+    #adding courses to each lecturer
+    for file_name in os.listdir(json_directory_path):
+        file_to_read = os.path.join(json_directory_path, file_name)
+        if (len(file_name)<6):
+            continue
+        if (file_name[-5:]!=".json"):
+            continue
+        with open(file_to_read,"r") as f:
+            loaded_dict = json.load(f)
+            key_list = loaded_dict.keys()
+            for course_id in key_list:
+                for lecturer in lecturers_list:
+                    if (lecturer in loaded_dict[course_id]["lecturers"] and (not loaded_dict[course_id]["course_name"] in lecturers_dict[lecturer])):
+                        lecturers_dict[lecturer].append(loaded_dict[course_id]["course_name"])
+    #writing to the output file
+    with open(output_json_path, 'w') as f:
+        json.dump(lecturers_dict, f, indent=4)
 
 
 
