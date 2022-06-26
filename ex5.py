@@ -50,7 +50,7 @@ def enrollment_numbers(input_json_path, output_file_path):
     with open(output_file_path, 'w') as f:
         for course in course_list:
             f.write('"' + course+ '" '+str(course_dict[course]))
-
+#d
 def courses_for_lecturers(json_directory_path, output_json_path):
     """
     This function writes the courses given by each lecturer in json format.
