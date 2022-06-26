@@ -13,8 +13,7 @@ def names_of_registered_students(input_json_path, course_name):
     :return: List of the names of the students.
     """
     student_list=[]
-    with open('input_json_path.json', 'r') as f:
-        count=0
+    with open(input_json_path, 'r') as f:
         loaded_dict = json.load(f)
         key_list = loaded_dict.keys()
         for student in key_list:
