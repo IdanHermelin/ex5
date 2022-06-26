@@ -12,8 +12,14 @@ def names_of_registered_students(input_json_path, course_name):
     :param course_name: The name of the course.
     :return: List of the names of the students.
     """
-    pass
-
+    with open('input_json_path.json', 'r') as f:
+        count=0
+        loaded_dict = json.load(f)
+        key_list = loaded_dict.keys()
+        for student in key_list:
+            if(course_name in loaded_dict[student]["registered_courses"]):
+                count+=1
+    return count
 
 def enrollment_numbers(input_json_path, output_file_path):
     """
